@@ -1,0 +1,204 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 2rem 1rem;
+    color: #333;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+h1 {
+    text-align: center;
+    color: white;
+    font-size: 2.5rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    text-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    letter-spacing: -0.5px;
+}
+
+.table-wrapper {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.1),
+        0 0 0 1px rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    overflow: hidden;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+thead tr {
+    background: linear-gradient(135deg, #4f46e5, #7c3aed);
+    color: white;
+}
+
+th {
+    padding: 1.2rem 1rem;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.95rem;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+td {
+    padding: 1rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    font-size: 0.95rem;
+}
+
+tbody tr {
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.8);
+}
+
+tbody tr:nth-child(even) {
+    background: rgba(248, 250, 252, 0.9);
+}
+
+tbody tr:hover {
+    background: rgba(99, 102, 241, 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.rank {
+    font-weight: 600;
+    color: #6366f1;
+    background: rgba(99, 102, 241, 0.1);
+    padding: 0.5rem 0.8rem;
+    border-radius: 8px;
+    display: inline-block;
+    min-width: 35px;
+    text-align: center;
+}
+
+.crypto-name {
+    font-weight: 500;
+    color: #1f2937;
+}
+
+.crypto-symbol {
+    color: #6b7280;
+    font-size: 0.85rem;
+    margin-left: 0.5rem;
+}
+
+.market-cap {
+    font-weight: 500;
+    color: #059669;
+}
+
+.price {
+    font-weight: 600;
+    color: #dc2626;
+    font-size: 1.05rem;
+}
+
+.deprecated {
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.deprecated.true {
+    background: rgba(239, 68, 68, 0.1);
+    color: #dc2626;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.deprecated.false {
+    background: rgba(34, 197, 94, 0.1);
+    color: #059669;
+    border: 1px solid rgba(34, 197, 94, 0.2);
+}
+
+.last-update {
+    color: #6b7280;
+    font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 1rem 0.5rem;
+    }
+    
+    h1 {
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .table-wrapper {
+        padding: 1rem;
+        border-radius: 15px;
+    }
+    
+    table {
+        font-size: 0.85rem;
+    }
+    
+    th, td {
+        padding: 0.8rem 0.5rem;
+    }
+    
+    th {
+        font-size: 0.8rem;
+    }
+    
+    .rank {
+        padding: 0.3rem 0.6rem;
+        min-width: 30px;
+    }
+}
+
+/* Animación de carga */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.table-wrapper {
+    animation: fadeInUp 0.8s ease-out;
+}
+
+tbody tr {
+    animation: fadeInUp 0.6s ease-out backwards;
+}
+
+tbody tr:nth-child(1) { animation-delay: 0.1s; }
+tbody tr:nth-child(2) { animation-delay: 0.15s; }
+tbody tr:nth-child(3) { animation-delay: 0.2s; }
+tbody tr:nth-child(4) { animation-delay: 0.25s; }
+tbody tr:nth-child(5) { animation-delay: 0.3s; }

@@ -7,6 +7,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Lista de cryptos</title>
         <link rel="stylesheet" href="{% static 'portafolioCripto/style.css' %}">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/js/all.min.js" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+
     </head>
     <body>
         <div class="container">
@@ -16,11 +20,12 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Nombre</th>
-                            <th>Market Cap</th>
-                            <th>Estado</th>
-                            <th>Última Act.</th>
-                            <th>Precio</th>
+                            <th>Name</th>
+                            <th>Market-Cap</th>
+                            <th>State</th>
+                            <th>Last Update</th>
+                            <th>Price</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -29,6 +34,7 @@
                         <tr>
                             <td><span class="rank">{{ forloop.counter }}</span></td>
                             <td>
+                                <span><img class="logo-crypto" src="{{ crypto.logo }}" alt="logo-{{ crypto.name }}"></span>
                                 <span class="crypto-name">{{ crypto.name }}</span>
                                 <span class="crypto-symbol">{{ crypto.symbol }}</span>
                             </td>
@@ -36,43 +42,12 @@
                             <td><span class="deprecated {{ crypto.deprecated|yesno:'true,false' }}">{{ crypto.deprecated|yesno:'Sí,No' }}</span></td>
                             <td class="last-update">{{ crypto.crypto_price_set.last.date }}</td>
                             <td class="price">${{ crypto.crypto_price_set.last.price }}</td>
+                            <td>
+                                <a href="" class="table-button table-shoping"><i class="fa-solid fa-cart-shopping"></i></a>
+                                <a href="" class="table-button table-view"><i class="fa-solid fa-eye"></i></a>
+                            </td>
                         </tr>
                         {% endfor %}
-                        
-                        <!-- Datos de ejemplo para visualización -->
-                        <tr>
-                            <td><span class="rank">1</span></td>
-                            <td>
-                                <span class="crypto-name">Bitcoin</span>
-                                <span class="crypto-symbol">BTC</span>
-                            </td>
-                            <td class="market-cap">$850,234,567,890</td>
-                            <td><span class="deprecated false">No</span></td>
-                            <td class="last-update">2025-07-25</td>
-                            <td class="price">$43,250.00</td>
-                        </tr>
-                        <tr>
-                            <td><span class="rank">2</span></td>
-                            <td>
-                                <span class="crypto-name">Ethereum</span>
-                                <span class="crypto-symbol">ETH</span>
-                            </td>
-                            <td class="market-cap">$320,456,789,123</td>
-                            <td><span class="deprecated false">No</span></td>
-                            <td class="last-update">2025-07-25</td>
-                            <td class="price">$2,680.50</td>
-                        </tr>
-                        <tr>
-                            <td><span class="rank">3</span></td>
-                            <td>
-                                <span class="crypto-name">Tether</span>
-                                <span class="crypto-symbol">USDT</span>
-                            </td>
-                            <td class="market-cap">$112,345,678,901</td>
-                            <td><span class="deprecated false">No</span></td>
-                            <td class="last-update">2025-07-25</td>
-                            <td class="price">$1.00</td>
-                        </tr>
                     </tbody>
                 </table>
             </div>

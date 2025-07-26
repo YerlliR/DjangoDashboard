@@ -8,51 +8,87 @@
 
 body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 25%, #262626 75%, #1a1a1a 100%);
     min-height: 100vh;
     padding: 2rem 1rem;
-    color: #333;
+    color: #e2e8f0;
 }
 
 .container {
-    max-width: 1200px;
+    max-width: 95%;
     margin: 0 auto;
 }
 
 h1 {
     text-align: center;
-    color: white;
+    color: #f1f5f9;
     font-size: 2.5rem;
     font-weight: 600;
     margin-bottom: 2rem;
-    text-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    text-shadow: 0 4px 20px rgba(59, 130, 246, 0.5);
     letter-spacing: -0.5px;
 }
 
+a{
+    text-decoration: none;
+    color: white;
+}
+
+.table-button{
+    transition: color 0.3s ease, transform 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+    margin: 0px 10px;
+    background-color: rgba(75, 75, 75, 0.209);
+    padding: 0.6rem;
+    border-radius: 5px;
+}
+
+.table-button:hover{
+
+    background-color: rgba(199, 199, 199, 0.209);
+    box-shadow: 
+        0 8px 25px rgba(59, 130, 246, 0.2),
+        0 0 20px rgba(59, 130, 246, 0.1);
+
+}
+
+.table-shoping:hover{
+    color:#10b981;
+}
+
+
+.table-view:hover{
+    color:#3b82f6;
+}
+
 .table-wrapper {
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(15, 23, 42, 0.6);
     backdrop-filter: blur(20px);
     border-radius: 20px;
     padding: 2rem;
-    box-shadow: 
-        0 20px 40px rgba(0, 0, 0, 0.1),
-        0 0 0 1px rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow:
+        0 25px 50px rgba(0, 0, 0, 0.5),
+        0 0 0 1px rgba(59, 130, 246, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(59, 130, 246, 0.2);
     overflow: hidden;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(15, 23, 42, 0.8);
     border-radius: 15px;
     overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    box-shadow: 
+        0 10px 30px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
 thead tr {
-    background: linear-gradient(135deg, #4f46e5, #7c3aed);
-    color: white;
+    background: linear-gradient(135deg, #1e293b, #334155);
+    color: #f1f5f9;
 }
 
 th {
@@ -62,60 +98,72 @@ th {
     font-size: 0.95rem;
     letter-spacing: 0.5px;
     text-transform: uppercase;
-    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+    border-bottom: 2px solid rgba(59, 130, 246, 0.3);
 }
 
 td {
     padding: 1rem;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    border-bottom: 1px solid rgba(59, 130, 246, 0.1);
     font-size: 0.95rem;
 }
 
 tbody tr {
     transition: all 0.3s ease;
-    background: rgba(255, 255, 255, 0.8);
+    background: rgba(15, 23, 42, 0.4);
 }
 
 tbody tr:nth-child(even) {
-    background: rgba(248, 250, 252, 0.9);
+    background: rgba(30, 41, 59, 0.3);
 }
 
 tbody tr:hover {
-    background: rgba(99, 102, 241, 0.1);
+    background: rgba(59, 130, 246, 0.15);
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 
+        0 8px 25px rgba(59, 130, 246, 0.2),
+        0 0 20px rgba(59, 130, 246, 0.1);
 }
 
 .rank {
     font-weight: 600;
-    color: #6366f1;
-    background: rgba(99, 102, 241, 0.1);
+    color: #3b82f6;
+    background: rgba(59, 130, 246, 0.15);
     padding: 0.5rem 0.8rem;
     border-radius: 8px;
     display: inline-block;
     min-width: 35px;
     text-align: center;
+    border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.logo-crypto {
+    height: 2rem;
+    width: 2rem;
+    vertical-align: middle;
+    margin-right: 0.5rem;
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 .crypto-name {
     font-weight: 500;
-    color: #1f2937;
+    color: #f1f5f9;
 }
 
 .crypto-symbol {
-    color: #6b7280;
+    color: #94a3b8;
     font-size: 0.85rem;
     margin-left: 0.5rem;
 }
 
 .market-cap {
     font-weight: 500;
-    color: #059669;
+    color: #10b981;
 }
 
 .price {
     font-weight: 600;
-    color: #dc2626;
+    color: #f59e0b;
     font-size: 1.05rem;
 }
 
@@ -128,25 +176,29 @@ tbody tr:hover {
 }
 
 .deprecated.true {
-    background: rgba(239, 68, 68, 0.1);
-    color: #dc2626;
-    border: 1px solid rgba(239, 68, 68, 0.2);
+    background: rgba(239, 68, 68, 0.2);
+    color: #fca5a5;
+    border: 1px solid rgba(239, 68, 68, 0.4);
 }
 
 .deprecated.false {
-    background: rgba(34, 197, 94, 0.1);
-    color: #059669;
-    border: 1px solid rgba(34, 197, 94, 0.2);
+    background: rgba(34, 197, 94, 0.2);
+    color: #86efac;
+    border: 1px solid rgba(34, 197, 94, 0.4);
 }
 
 .last-update {
-    color: #6b7280;
+    color: #94a3b8;
     font-size: 0.9rem;
 }
 
 @media (max-width: 768px) {
     body {
         padding: 1rem 0.5rem;
+    }
+    
+    .container {
+        max-width: 98%;
     }
     
     h1 {

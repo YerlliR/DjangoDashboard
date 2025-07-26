@@ -1,8 +1,41 @@
 {% extends 'base.html' %}
 
-
 {% block content %}
     <div class="container">
+        <!-- Buscador -->
+        <div class="search-wrapper">
+            <form method="GET" class="search-form">
+                <div class="search-container">
+                    <input 
+                        type="text" 
+                        name="search" 
+                        value="{{ search_query }}" 
+                        placeholder="Buscar criptomoneda por nombre o símbolo..."
+                        class="search-input"
+                    >
+                    <button type="submit" class="search-button">
+                        <i class="fa-solid fa-search"></i>
+                    </button>
+                    {% if search_query %}
+                        <a href="{% url 'index' %}" class="clear-search">
+                            <i class="fa-solid fa-times"></i>
+                        </a>
+                    {% endif %}
+                </div>
+            </form>
+            
+            {% if search_query %}
+                <div class="search-results-info">
+                    <p>Mostrando {{ page_obj.paginator.count }} resultado(s) para "<strong>{{ search_query }}</strong>"</p>
+                </div>
+            {% else %}
+                <div class="search-results-info">
+                    <p>Total de criptomonedas: <strong>{{ total_cryptos }}</strong></p>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Tabla de criptomonedas -->
         <div class="table-wrapper">
             <table>
                 <thead>
@@ -17,27 +50,90 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Ejemplo de datos para mostrar el diseño -->
-                    {% for crypto in crypto_list %}
+                    {% for crypto in page_obj %}
                     <tr>
-                        <td><span class="rank">{{ forloop.counter }}</span></td>
+                        <td><span class="rank">{{ forloop.counter|add:page_obj.start_index|add:"-1" }}</span></td>
                         <td>
                             <span><img class="logo-crypto" src="{{ crypto.logo }}" alt="logo-{{ crypto.name }}"></span>
                             <span class="crypto-name">{{ crypto.name }}</span>
                             <span class="crypto-symbol">{{ crypto.symbol }}</span>
                         </td>
-                        <td class="market-cap">${{ crypto.crypto_price_set.last.market_cap }}</td>
+                        <td class="market-cap">
+                            {% if crypto.crypto_price_set.last.market_cap %}
+                                ${{ crypto.crypto_price_set.last.market_cap|floatformat:0 }}
+                            {% else %}
+                                N/A
+                            {% endif %}
+                        </td>
                         <td><span class="deprecated {{ crypto.deprecated|yesno:'true,false' }}">{{ crypto.deprecated|yesno:'Sí,No' }}</span></td>
                         <td class="last-update">{{ crypto.crypto_price_set.last.date }}</td>
-                        <td class="price">${{ crypto.crypto_price_set.last.price }}</td>
+                        <td class="price">${{ crypto.crypto_price_set.last.price|floatformat:2 }}</td>
                         <td>
                             <a href="" class="table-button table-shoping"><i class="fa-solid fa-cart-shopping"></i></a>
                             <a href="" class="table-button table-view"><i class="fa-solid fa-eye"></i></a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="7" class="no-results">
+                            {% if search_query %}
+                                No se encontraron criptomonedas que coincidan con "{{ search_query }}"
+                            {% else %}
+                                No hay criptomonedas disponibles
+                            {% endif %}
                         </td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
+
+        <!-- Paginación -->
+        {% if page_obj.has_other_pages %}
+        <div class="pagination-wrapper">
+            <div class="pagination">
+                <!-- Botón Primera Página -->
+                {% if page_obj.has_previous %}
+                    <a href="?page=1{% if search_query %}&search={{ search_query }}{% endif %}" class="pagination-link first">
+                        <i class="fa-solid fa-angles-left"></i>
+                    </a>
+                    <!-- Botón Página Anterior -->
+                    <a href="?page={{ page_obj.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}" class="pagination-link prev">
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </a>
+                {% endif %}
+
+                <!-- Números de páginas -->
+                {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                        <!-- Página actual -->
+                        <span class="pagination-link current">{{ num }}</span>
+                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                        <!-- Páginas cercanas -->
+                        <a href="?page={{ num }}{% if search_query %}&search={{ search_query }}{% endif %}" class="pagination-link">{{ num }}</a>
+                    {% endif %}
+                {% endfor %}
+
+                <!-- Botón Siguiente Página -->
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}" class="pagination-link next">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </a>
+                    <!-- Botón Última Página -->
+                    <a href="?page={{ page_obj.paginator.num_pages }}{% if search_query %}&search={{ search_query }}{% endif %}" class="pagination-link last">
+                        <i class="fa-solid fa-angles-right"></i>
+                    </a>
+                {% endif %}
+            </div>
+            
+            <!-- Información de paginación -->
+            <div class="pagination-info">
+                <p>
+                    Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }} 
+                    ({{ page_obj.start_index }}-{{ page_obj.end_index }} de {{ page_obj.paginator.count }} resultados)
+                </p>
+            </div>
+        </div>
+        {% endif %}
     </div>
 {% endblock %}

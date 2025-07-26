@@ -1,56 +1,40 @@
-{% load static %}
-
-<!DOCTYPE html>
-<html lang="es">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Lista de cryptos</title>
-        <link rel="stylesheet" href="{% static 'portafolioCripto/style.css' %}">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/js/all.min.js" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-
-
-    </head>
-    <body>
-        <div class="container">
-            <h1>TOP 100 CRYPTOMONEDAS</h1>
-            <div class="table-wrapper">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Name</th>
-                            <th>Market-Cap</th>
-                            <th>State</th>
-                            <th>Last Update</th>
-                            <th>Price</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Ejemplo de datos para mostrar el diseño -->
-                        {% for crypto in crypto_list %}
-                        <tr>
-                            <td><span class="rank">{{ forloop.counter }}</span></td>
-                            <td>
-                                <span><img class="logo-crypto" src="{{ crypto.logo }}" alt="logo-{{ crypto.name }}"></span>
-                                <span class="crypto-name">{{ crypto.name }}</span>
-                                <span class="crypto-symbol">{{ crypto.symbol }}</span>
-                            </td>
-                            <td class="market-cap">${{ crypto.crypto_price_set.last.market_cap }}</td>
-                            <td><span class="deprecated {{ crypto.deprecated|yesno:'true,false' }}">{{ crypto.deprecated|yesno:'Sí,No' }}</span></td>
-                            <td class="last-update">{{ crypto.crypto_price_set.last.date }}</td>
-                            <td class="price">${{ crypto.crypto_price_set.last.price }}</td>
-                            <td>
-                                <a href="" class="table-button table-shoping"><i class="fa-solid fa-cart-shopping"></i></a>
-                                <a href="" class="table-button table-view"><i class="fa-solid fa-eye"></i></a>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+{% block content %}
+    <div class="container">
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Market-Cap</th>
+                        <th>State</th>
+                        <th>Last Update</th>
+                        <th>Price</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Ejemplo de datos para mostrar el diseño -->
+                    {% for crypto in crypto_list %}
+                    <tr>
+                        <td><span class="rank">{{ forloop.counter }}</span></td>
+                        <td>
+                            <span><img class="logo-crypto" src="{{ crypto.logo }}" alt="logo-{{ crypto.name }}"></span>
+                            <span class="crypto-name">{{ crypto.name }}</span>
+                            <span class="crypto-symbol">{{ crypto.symbol }}</span>
+                        </td>
+                        <td class="market-cap">${{ crypto.crypto_price_set.last.market_cap }}</td>
+                        <td><span class="deprecated {{ crypto.deprecated|yesno:'true,false' }}">{{ crypto.deprecated|yesno:'Sí,No' }}</span></td>
+                        <td class="last-update">{{ crypto.crypto_price_set.last.date }}</td>
+                        <td class="price">${{ crypto.crypto_price_set.last.price }}</td>
+                        <td>
+                            <a href="" class="table-button table-shoping"><i class="fa-solid fa-cart-shopping"></i></a>
+                            <a href="" class="table-button table-view"><i class="fa-solid fa-eye"></i></a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
-    </body>
-</html>
+    </div>
+{% endblock %}

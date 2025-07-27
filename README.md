@@ -303,15 +303,11 @@ ALLOWED_HOSTS=localhost,127.0.0.1
 - Gunicorn como WSGI server
 - SSL/HTTPS habilitado
 
-## 📄 Licencia
-
-Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE](LICENSE) para más detalles.
-
 ## 👨‍💻 Autor
 
 **Yerlli** - *Desarrollador Principal*
-- GitHub: [@tu-usuario](https://github.com/tu-usuario)
-- Email: tu-email@ejemplo.com
+- GitHub: [@YerlliR](https://github.com/YerlliR)
+- Email: sergiricartt
 
 ## 🙏 Agradecimientos
 

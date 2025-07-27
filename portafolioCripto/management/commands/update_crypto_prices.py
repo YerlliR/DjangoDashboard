@@ -1,19 +1,16 @@
-# portafolioCripto/management/commands/update_crypto_prices.py
-
 from django.core.management.base import BaseCommand  # ← Clase base obligatoria
 import requests
 from datetime import datetime
 from portafolioCripto.models import Crypto, Crypto_price
+from django.conf import settings
 
-class Command(BaseCommand):  # ← DEBE llamarse "Command"
-    # Descripción que aparece cuando haces --help
-    help = 'Actualiza los precios de las criptomonedas desde CoinGecko API'
+
+class Command(BaseCommand):
+
+    help = 'Actualizar precios de criptomonedas'
 
     def add_arguments(self, parser):
-        """
-        Aquí defines argumentos de línea de comandos personalizados
-        Similar a argparse de Python
-        """
+        # Argumentos para el log
         parser.add_argument(
             '--pages',
             type=int,
@@ -28,11 +25,7 @@ class Command(BaseCommand):  # ← DEBE llamarse "Command"
         )
 
     def handle(self, *args, **options):
-        """
-        MÉTODO PRINCIPAL - Aquí va tu lógica
-        Django llama automáticamente a este método
-        """
-        # Obtener argumentos pasados
+
         api_pages = options['pages']
         verbose = options['verbose']
         
@@ -48,8 +41,10 @@ class Command(BaseCommand):  # ← DEBE llamarse "Command"
                 self.stdout.write(f'Procesando página {api_page}...')
                 
             try:
-                # Tu lógica original aquí
-                enlace = f"https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=250&page={api_page}&sparkline=false"
+                base_url = settings.COINGECKO_API_BASE
+                endpoint = settings.COINGECKO_MARKETS_ENDPOINT
+                enlace = f"{base_url}{endpoint}?vs_currency=usd&order=market_cap_desc&per_page=250&page={api_page}&sparkline=false"
+
                 response = requests.get(enlace, timeout=30)
                 response.raise_for_status()
                 
@@ -96,7 +91,6 @@ class Command(BaseCommand):  # ← DEBE llamarse "Command"
                     self.style.ERROR(f'Error de conexión en página {api_page}: {e}')
                 )
 
-        # Mensaje final con estilo
         self.stdout.write(
             self.style.SUCCESS(f'✓ Completado! {total_processed} criptos procesadas')
         )

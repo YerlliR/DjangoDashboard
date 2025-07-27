@@ -121,3 +121,7 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+COINGECKO_API_BASE = 'https://api.coingecko.com/api/v3'
+COINGECKO_MARKETS_ENDPOINT = '/coins/markets'

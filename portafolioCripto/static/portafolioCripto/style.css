@@ -682,3 +682,112 @@ body {
 .pagination-wrapper {
     animation: fadeInUp 0.8s ease-out 0.2s backwards;
 }
+
+
+.auth-section {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.login-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #e2e8f0;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.8rem 1.2rem;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    background: rgba(59, 130, 246, 0.1);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    font-size: 0.95rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.login-btn:hover {
+    background: rgba(59, 130, 246, 0.2);
+    color: #3b82f6;
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.15);
+    border-color: rgba(59, 130, 246, 0.4);
+    transform: translateY(-1px);
+}
+
+.login-btn i {
+    font-size: 1.1rem;
+}
+
+.github-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #e2e8f0;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.8rem 1.2rem;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    background: rgba(75, 75, 75, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 0.95rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.github-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-1px);
+}
+
+
+.linkedin-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #e2e8f0;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.8rem 1.2rem;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    background: #0e77a861;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 0.95rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.linkedin-btn:hover {
+    background: #0e76a8;
+    color: #ffffff;
+    box-shadow: 0 4px 15px #0e76a8;
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-1px);
+}
+
+
+.github-btn i {
+    font-size: 1.1rem;
+}
+
+.logo {
+    margin-left: 5rem;
+}
+.logo img {
+    height: 2.5rem;
+    width: 2.5rem;
+    max-height: 2.5rem;
+    position: absolute;
+    top: 50%;
+    left: -45%;
+    transform: translate(-50%, -50%);
+}
+
+.container{
+    margin-top: 3rem;
+}

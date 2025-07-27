@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    {% if user.is_authenticated %}
+
+        <h1>Wallet</h1>
+    
+    {% else %}
+        <div class="alert-login-container">
+            <div class="login-wrapper">
+                <div class="login-card">
+                    <!-- Icono de wallet -->
+                    <div class="login-icon">
+                        <i class="fas fa-wallet"></i>
+                    </div>
+                    
+                    <!-- Título principal -->
+                    <h1>Acceso a Wallet</h1>
+                    
+                    <!-- Mensaje informativo -->
+                    <div class="login-message">
+                        <p>Para disfrutar de todas las funciones de <strong>BitPy</strong> y gestionar tu cartera de criptomonedas, necesitas iniciar sesión primero.</p>
+                    </div>
+
+                    <!-- Características que se desbloquean -->
+                    <div class="features-list">
+                        <h3>Con tu cuenta podrás:</h3>
+                        <ul>
+                            <li>
+                                <i class="fas fa-wallet"></i>
+                                Crear y gestionar múltiples wallets
+                            </li>
+                            <li>
+                                <i class="fas fa-chart-line"></i>
+                                Hacer seguimiento de tus inversiones
+                            </li>
+                            <li>
+                                <i class="fas fa-history"></i>
+                                Ver historial de transacciones
+                            </li>
+                            <li>
+                                <i class="fas fa-bell"></i>
+                                Recibir alertas de precio
+                            </li>
+                        </ul>
+                    </div>
+                    <a href="/login">
+                        <button type="submit" class="login-btn">
+                            <i class="fas fa-sign-in-alt"></i>
+                            Iniciar Sesión
+                        </button>
+                    </a>
+
+                    
+                    <!-- Volver al inicio -->
+                    <div class="back-home">
+                        <a href="{% url 'index' %}" class="back-btn">
+                            <i class="fas fa-arrow-left"></i>
+                            Volver al inicio
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    {% endif %}
+
+{% endblock %}
+
+{% block extra_js %}
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animación de entrada para los elementos
+            const features = document.querySelectorAll('.features-list li');
+            features.forEach((feature, index) => {
+                feature.style.animationDelay = `${0.1 * index}s`;
+                feature.style.animation = 'fadeInUp 0.6s ease-out forwards';
+            });
+            
+            // Efecto hover para los botones de autenticación
+            const authBtns = document.querySelectorAll('.auth-btn');
+            authBtns.forEach(btn => {
+                btn.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-2px) scale(1.02)';
+                });
+                
+                btn.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+            
+            // Placeholder para autenticación con GitHub
+            document.getElementById('github-login').addEventListener('click', function(e) {
+                e.preventDefault();
+                // Aquí iría la lógica de autenticación con GitHub
+                alert('Funcionalidad de GitHub OAuth en desarrollo...');
+            });
+            
+            // Placeholder para autenticación con Google
+            document.getElementById('google-login').addEventListener('click', function(e) {
+                e.preventDefault();
+                // Aquí iría la lógica de autenticación con Google
+                alert('Funcionalidad de Google OAuth en desarrollo...');
+            });
+        });
+
+    </script>
+{% endblock %}

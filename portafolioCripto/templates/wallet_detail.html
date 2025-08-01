@@ -1,0 +1,284 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    {% if user.is_authenticated %}
+
+        <div class="container">
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-title">Total Balnce</div>
+                    <div class="metric-value">$47,582.34</div>
+                    <div class="metric-change positive">
+                        <i class="fas fa-arrow-up"></i> +5.17%
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-title">Profit/Loss</div>
+                    <div class="metric-value">+$8,234.56</div>
+                    <div class="metric-change positive">
+                        <i class="fas fa-arrow-up"></i> +20.87%
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-title">Total Invest</div>
+                    <div class="metric-value">$39,347.78</div>
+                    <div class="metric-change">
+                        <i class="fas fa-coins"></i> Invertido
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-title">24h Change</div>
+                    <div class="metric-value">+$2,341.23</div>
+                    <div class="metric-change positive">
+                        <i class="fas fa-arrow-up"></i> +5.17%
+                    </div>
+                </div>
+            </div>
+
+            <!-- <div class="charts-grid">
+                <div class="chart-container">
+                    <h3 class="chart-title">Distribución de Portfolio</h3>
+                    <div class="doughnut-container">
+                        <div class="doughnut-mock"></div>
+                        <div class="doughnut-legend">
+                            <div class="legend-item">
+                                <div class="legend-color bitcoin"></div>
+                                <span>Bitcoin (47.6%)</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color ethereum"></div>
+                                <span>Ethereum (31.4%)</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color cardano"></div>
+                                <span>Cardano (11.8%)</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color solana"></div>
+                                <span>Solana (5.7%)</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color polygon"></div>
+                                <span>Polygon (3.8%)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <h3 class="chart-title">Rendimiento del Portfolio (30 días)</h3>
+                    <div class="line-chart-mock">
+                        <div class="chart-grid"></div>
+                        <div class="line-path"></div>
+                    </div>
+                </div>
+            </div> -->
+
+            <div class="holdings-table">
+                <h3 class="chart-title">Mis Tenencias</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>NAME</th>
+                            <th>PRICE</th>
+                            <th>QUANTITY</th>
+                            <th>VALUE</th>
+                            <th>24h CHANGE</th>
+                            <th>% PORTFOLIO</th>
+                            <th>ACTIONS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for crypto in page_obj %}
+
+                            <tr>
+                                <td>
+                                    <span><img class="logo-crypto" src="{{ crypto.logo }}" alt="logo-{{ crypto.name }}"></span>
+                                    <span class="crypto-name">{{ crypto.name }}</span>
+                                    <span class="crypto-symbol">{{ crypto.symbol }}</span>
+                                </td>
+                                <td class="price">
+                                    {{ crypto.crypto_price_set.last.date }}
+                                </td>
+                                <td class="amount">
+                                    0.5234
+                                </td>
+                                <td class="value">
+                                    $22,635.05
+                                </td>
+                                <td class="change positive">
+                                    +2.34%
+                                </td>
+                                <td>
+                                    47.6%
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="crypto-info">
+                                        <img src="https://cryptologos.cc/logos/ethereum-eth-logo.png" alt="Ethereum" class="crypto-logo">
+                                        <div class="crypto-details">
+                                            <span class="crypto-name">Ethereum</span>
+                                            <span class="crypto-symbol">ETH</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="price">$2,850.00</td>
+                                <td class="amount">5.2341</td>
+                                <td class="value">$14,917.19</td>
+                                <td class="change positive">+4.12%</td>
+                                <td>31.4%</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="crypto-info">
+                                        <img src="https://cryptologos.cc/logos/cardano-ada-logo.png" alt="Cardano" class="crypto-logo">
+                                        <div class="crypto-details">
+                                            <span class="crypto-name">Cardano</span>
+                                            <span class="crypto-symbol">ADA</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="price">$0.45</td>
+                                <td class="amount">12,450.00</td>
+                                <td class="value">$5,602.50</td>
+                                <td class="change negative">-1.23%</td>
+                                <td>11.8%</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="crypto-info">
+                                        <img src="https://cryptologos.cc/logos/solana-sol-logo.png" alt="Solana" class="crypto-logo">
+                                        <div class="crypto-details">
+                                            <span class="crypto-name">Solana</span>
+                                            <span class="crypto-symbol">SOL</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="price">$95.67</td>
+                                <td class="amount">28.45</td>
+                                <td class="value">$2,721.82</td>
+                                <td class="change positive">+7.89%</td>
+                                <td>5.7%</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="crypto-info">
+                                        <img src="https://cryptologos.cc/logos/polygon-matic-logo.png" alt="Polygon" class="crypto-logo">
+                                        <div class="crypto-details">
+                                            <span class="crypto-name">Polygon</span>
+                                            <span class="crypto-symbol">MATIC</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="price">$0.87</td>
+                                <td class="amount">2,100.00</td>
+                                <td class="value">$1,827.00</td>
+                                <td class="change positive">+3.45%</td>
+                                <td>3.8%</td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="7" class="no-results">
+                                    No hay criptomonedas disponibles
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    
+    {% else %}
+
+        <div class="alert-login-container">
+            <div class="login-wrapper">
+                <div class="login-card">
+                    <div class="login-icon">
+                        <i class="fas fa-wallet"></i>
+                    </div>
+                    
+                    <h1>Acceso a Wallet</h1>
+                    
+                    <div class="login-message">
+                        <p>Para disfrutar de todas las funciones de <strong>BitPy</strong> y gestionar tu cartera de criptomonedas, necesitas iniciar sesión primero.</p>
+                    </div>
+
+                    <div class="features-list">
+                        <h3>Con tu cuenta podrás:</h3>
+                        <ul>
+                            <li>
+                                <i class="fas fa-wallet"></i>
+                                Crear y gestionar múltiples wallets
+                            </li>
+                            <li>
+                                <i class="fas fa-chart-line"></i>
+                                Hacer seguimiento de tus inversiones
+                            </li>
+                            <li>
+                                <i class="fas fa-history"></i>
+                                Ver historial de transacciones
+                            </li>
+                            <li>
+                                <i class="fas fa-bell"></i>
+                                Recibir alertas de precio
+                            </li>
+                        </ul>
+                    </div>
+                    <a href="/login">
+                        <button type="submit" class="login-btn">
+                            <i class="fas fa-sign-in-alt"></i>
+                            Iniciar Sesión
+                        </button>
+                    </a>
+
+                    <div class="back-home">
+                        <a href="{% url 'index' %}" class="back-btn">
+                            <i class="fas fa-arrow-left"></i>
+                            Volver al inicio
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    {% endif %}
+
+{% endblock %}
+
+{% block extra_js %}
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const features = document.querySelectorAll('.features-list li');
+            features.forEach((feature, index) => {
+                feature.style.animationDelay = `${0.1 * index}s`;
+                feature.style.animation = 'fadeInUp 0.6s ease-out forwards';
+            });
+            
+            const authBtns = document.querySelectorAll('.auth-btn');
+            authBtns.forEach(btn => {
+                btn.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-2px) scale(1.02)';
+                });
+                
+                btn.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+            
+            document.getElementById('github-login').addEventListener('click', function(e) {
+                e.preventDefault();
+                alert('Funcionalidad de GitHub OAuth en desarrollo...');
+            });
+            
+            document.getElementById('google-login').addEventListener('click', function(e) {
+                e.preventDefault();
+                alert('Funcionalidad de Google OAuth en desarrollo...');
+            });
+        });
+
+    </script>
+{% endblock %}

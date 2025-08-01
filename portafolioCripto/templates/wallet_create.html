@@ -1,0 +1,187 @@
+{% extends 'base.html' %}
+
+{% block content %}
+        
+    <div class="container">
+        <div class="create-wallet-container">
+
+            <div class="form-container">
+                <div class="form-section">
+                    <h2>
+                        <i class="fas fa-cog"></i>
+                        Configuración
+                    </h2>
+
+                    <div class="form-group">
+                        <label class="form-label" for="walletName">Nombre de la Wallet</label>
+                        <input 
+                            type="text" 
+                            id="walletName" 
+                            class="form-input" 
+                            placeholder="Ej: Mi Wallet Personal"
+                            maxlength="30"
+                            oninput="updatePreview()"
+                        >
+                    </div>
+
+                    <!-- Logo -->
+                    <div class="form-group">
+                        <label class="form-label">Logo de la Wallet</label>
+                        <div class="logo-grid">
+                            <div class="logo-option selected" data-logo="wallet" onclick="selectLogo(this)">
+                                <i class="fas fa-wallet"></i>
+                            </div>
+                            <div class="logo-option" data-logo="bitcoin" onclick="selectLogo(this)">
+                                <i class="fab fa-bitcoin"></i>
+                            </div>
+                            <div class="logo-option" data-logo="chart" onclick="selectLogo(this)">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div class="logo-option" data-logo="piggy" onclick="selectLogo(this)">
+                                <i class="fas fa-piggy-bank"></i>
+                            </div>
+                            <div class="logo-option" data-logo="shield" onclick="selectLogo(this)">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <div class="logo-option" data-logo="star" onclick="selectLogo(this)">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="logo-option" data-logo="diamond" onclick="selectLogo(this)">
+                                <i class="fas fa-gem"></i>
+                            </div>
+                            <div class="logo-option" data-logo="rocket" onclick="selectLogo(this)">
+                                <i class="fas fa-rocket"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Color -->
+                    <div class="form-group">
+                        <label class="form-label">Color Principal</label>
+                        <div class="color-grid">
+                            <div class="color-option color-blue selected" data-color="#3b82f6" onclick="selectColor(this)"></div>
+                            <div class="color-option color-green" data-color="#10b981" onclick="selectColor(this)"></div>
+                            <div class="color-option color-purple" data-color="#8b5cf6" onclick="selectColor(this)"></div>
+                            <div class="color-option color-red" data-color="#ef4444" onclick="selectColor(this)"></div>
+                            <div class="color-option color-orange" data-color="#f59e0b" onclick="selectColor(this)"></div>
+                            <div class="color-option color-pink" data-color="#ec4899" onclick="selectColor(this)"></div>
+                            <div class="color-option color-indigo" data-color="#6366f1" onclick="selectColor(this)"></div>
+                            <div class="color-option color-teal" data-color="#14b8a6" onclick="selectColor(this)"></div>
+                            <div class="color-option color-yellow" data-color="#eab308" onclick="selectColor(this)"></div>
+                            <div class="color-option color-gray" data-color="#6b7280" onclick="selectColor(this)"></div>
+                            <div class="color-option color-emerald" data-color="#059669" onclick="selectColor(this)"></div>
+                            <div class="color-option color-rose" data-color="#f43f5e" onclick="selectColor(this)"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Preview -->
+                <div class="form-section preview-section">
+                    <h2>
+                        <i class="fas fa-eye"></i>
+                        Vista Previa
+                    </h2>
+
+                    <div class="wallet-preview" id="walletPreview">
+                        <div class="preview-icon" id="previewIcon">
+                            <i class="fas fa-wallet"></i>
+                        </div>
+                        <div class="preview-name" id="previewName">Nueva Wallet</div>
+                        <div class="preview-address">0x742d...Ab3E</div>
+                        <div class="preview-balance">$0.00</div>
+                        <div class="preview-meta">
+                            <span class="preview-type" id="previewType">Personal</span>
+                            <span>0 tokens</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <a href="#" class="btn btn-secondary" onclick="goBack()">
+                    <i class="fas fa-arrow-left"></i>
+                    Cancelar
+                </a>
+                <button class="btn btn-primary" id="createBtn" onclick="createWallet()">
+                    <i class="fas fa-plus"></i>
+                    Crear Wallet
+                </button>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block extra_js %}
+
+    <script>
+        let walletConfig = {
+            name: 'Nueva Wallet',
+            logo: 'wallet',
+            color: '#3b82f6'
+        };
+
+        function selectLogo(element) {
+            document.querySelectorAll('.logo-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+
+            element.classList.add('selected');
+            walletConfig.logo = element.dataset.logo;
+            updatePreview();
+        }
+
+        function selectColor(element) {
+            document.querySelectorAll('.color-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+
+            element.classList.add('selected');
+            walletConfig.color = element.dataset.color;
+            updatePreview();
+        }
+
+
+        function updatePreview() {
+            
+            const nameInput = document.getElementById('walletName');
+            const previewName = document.getElementById('previewName');
+            const previewIcon = document.getElementById('previewIcon');
+            const walletPreview = document.getElementById('walletPreview');
+            const previewType = document.getElementById('previewType');
+
+            walletConfig.name = nameInput.value || 'Nueva Wallet';
+            previewName.textContent = walletConfig.name;
+
+            const iconMap = {
+                'wallet': 'fas fa-wallet',
+                'bitcoin': 'fab fa-bitcoin',
+                'chart': 'fas fa-chart-line',
+                'piggy': 'fas fa-piggy-bank',
+                'shield': 'fas fa-shield-alt',
+                'star': 'fas fa-star',
+                'diamond': 'fas fa-gem',
+                'rocket': 'fas fa-rocket'
+            };
+
+            previewIcon.innerHTML = `<i class="${iconMap[walletConfig.logo]}"></i>`;
+
+            document.documentElement.style.setProperty('--preview-color', walletConfig.color);
+            
+            previewIcon.style.background = `${walletConfig.color}20`;
+            previewIcon.style.color = walletConfig.color;
+
+            const createBtn = document.getElementById('createBtn');
+            createBtn.disabled = !walletConfig.name.trim();
+        }
+
+        function createWallet() {
+
+        }
+
+
+        // Volver a wallets principal
+        function goBack() {
+            window.location.href = `/wallet/`;
+        }
+
+    </script>
+{% endblock extra_js %}

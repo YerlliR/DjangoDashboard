@@ -12,7 +12,7 @@ class Crypto(models.Model):
 
 class Crypto_price(models.Model):
     crypto = models.ForeignKey(Crypto, on_delete=models.CASCADE)
-    date = models.DateField()
+    date = models.DateTimeField()
     price = models.FloatField()
     market_cap = models.FloatField(null=True, blank=True)
 
@@ -22,6 +22,8 @@ class Crypto_price(models.Model):
 class Wallet(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
+    icon = models.CharField(max_length=100)
+    color = models.CharField(max_length=100)
 
     def __str__(self):
         return self.name
@@ -31,6 +33,7 @@ class Transaction(models.Model):
     crypto = models.ForeignKey(Crypto, on_delete=models.CASCADE)
     date = models.DateField()
     amount = models.FloatField()
+    buy_price = models.FloatField()
 
     def __str__(self):
         return f"{self.wallet.user.username} - {self.wallet.name} - {self.crypto.name}"

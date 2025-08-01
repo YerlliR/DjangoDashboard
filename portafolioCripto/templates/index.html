@@ -52,38 +52,49 @@
                 </thead>
                 <tbody>
                     {% for crypto in page_obj %}
-                    <tr>
-                        <td><span class="rank">{{ forloop.counter|add:page_obj.start_index|add:"-1" }}</span></td>
-                        <td>
-                            <span><img class="logo-crypto" src="{{ crypto.logo }}" alt="logo-{{ crypto.name }}"></span>
-                            <span class="crypto-name">{{ crypto.name }}</span>
-                            <span class="crypto-symbol">{{ crypto.symbol }}</span>
-                        </td>
-                        <td class="market-cap">
-                            {% if crypto.crypto_price_set.last.market_cap %}
-                                ${{ crypto.crypto_price_set.last.market_cap|floatformat:0 }}
-                            {% else %}
-                                N/A
-                            {% endif %}
-                        </td>
-                        <td><span class="deprecated {{ crypto.deprecated|yesno:'true,false' }}">{{ crypto.deprecated|yesno:'Sí,No' }}</span></td>
-                        <td class="last-update">{{ crypto.crypto_price_set.last.date }}</td>
-                        <td class="price">${{ crypto.crypto_price_set.last.price|floatformat:2 }}</td>
-                        <td>
-                            <a href="" class="table-button table-shoping"><i class="fa-solid fa-cart-shopping"></i></a>
-                            <a href="" class="table-button table-view"><i class="fa-solid fa-eye"></i></a>
-                        </td>
-                    </tr>
+                        <tr>
+                            <td><span class="rank">{{ forloop.counter|add:page_obj.start_index|add:"-1" }}</span></td>
+                            <td>
+                                <span><img class="logo-crypto" src="{{ crypto.logo }}" alt="logo-{{ crypto.name }}"></span>
+                                <span class="crypto-name">{{ crypto.name }}</span>
+                                <span class="crypto-symbol">{{ crypto.symbol }}</span>
+                            </td>
+                            <td class="market-cap">
+                                {% if crypto.crypto_price_set.last.market_cap %}
+                                    ${{ crypto.crypto_price_set.last.market_cap|floatformat:0 }}
+                                {% else %}
+                                    N/A
+                                {% endif %}
+                            </td>
+                            <td>
+                                <span class="deprecated {{ crypto.deprecated|yesno:'true,false' }}">
+                                    {{ crypto.deprecated|yesno:'Sí,No' }}
+                                </span>
+                            </td>
+                            <td class="last-update">
+                                {{ crypto.crypto_price_set.last.date }}</td>
+                            <td class="price">
+                                ${{ crypto.crypto_price_set.last.price|floatformat:2 }}
+                            </td>
+                            <td>
+                                <a href="" class="table-button table-shoping">
+                                    <i class="fa-solid fa-cart-shopping"></i>
+                                </a>
+                                <a href="" class="table-button table-view">
+                                    <i class="fa-solid fa-eye"></i>
+                                </a>
+                            </td>
+                        </tr>
                     {% empty %}
-                    <tr>
-                        <td colspan="7" class="no-results">
-                            {% if search_query %}
-                                No se encontraron criptomonedas que coincidan con "{{ search_query }}"
-                            {% else %}
-                                No hay criptomonedas disponibles
-                            {% endif %}
-                        </td>
-                    </tr>
+                        <tr>
+                            <td colspan="7" class="no-results">
+                                {% if search_query %}
+                                    No se encontraron criptomonedas que coincidan con "{{ search_query }}"
+                                {% else %}
+                                    No hay criptomonedas disponibles
+                                {% endif %}
+                            </td>
+                        </tr>
                     {% endfor %}
                 </tbody>
             </table>

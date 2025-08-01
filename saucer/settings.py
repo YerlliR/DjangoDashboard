@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-weajzw4u1hh9#x!0s0ycmt67g@)z4^6t#mby3^y^%u-*b77fjf
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'tu_dominio.com']
 
 
 # Application definition
@@ -125,3 +125,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 COINGECKO_API_BASE = 'https://api.coingecko.com/api/v3'
 COINGECKO_MARKETS_ENDPOINT = '/coins/markets'
+
+LOGIN_URL = '/login/'

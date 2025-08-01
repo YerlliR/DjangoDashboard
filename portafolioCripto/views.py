@@ -1,13 +1,16 @@
 from django.shortcuts import render, redirect
-from .models import Crypto
+from .models import Crypto, Transaction, Wallet
 from django.core.paginator import Paginator 
 from django.db.models import Q 
 from django.contrib.auth.models import User
-from datetime import datetime 
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.http import Http404
 
+def probar_404(request):
+    raise Http404("Forzando error 404 para probar la plantilla")
 
 
 
@@ -35,12 +38,42 @@ def index_view(request):
         'total_cryptos': paginator.count, 
     })
 
+@login_required
+def wallet_detail_view(request):
 
-def wallet_view(request):
+    user = request.user
 
-    return render(request, 'wallet.html', {
+    # FILTRO PARA PODERA ACCEDER SOLO A LA WALLET DEL USUARIO
+    wallet = Wallet.objects.get(
+        user = user, 
+        id = int(request.GET.get('wallet_id'))
+    )
+    
+    user_crypto_list = list(Crypto.objects.filter(
+        id = Transaction.objects.filter(wallet=wallet)
+    ))
 
+    return render(request, 'wallet_detail.html', {
+        'wallet': wallet,
+        'user_crypto_list': user_crypto_list
     })
+
+
+@login_required
+def wallet_list_view(request):
+
+    user = request.user
+    wallet_list = list(Wallet.objects.filter(user=user))
+
+    return render(request, 'wallet_list.html', {
+        'wallet_list': wallet_list
+    })
+
+@login_required
+def wallet_create_view(request):
+    return render(request, 'wallet_create.html')
+
+
 
 def login_view(request):
     if request.method == 'POST':

@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="wallet-selection-container">
+            <div class="wallet-header">
+                <h1>Seleccionar Wallet</h1>
+                <p>Elige tu wallet para continuar o crea una nueva para empezar tu journey crypto</p>
+            </div>
+
+            <div class="wallets-grid">
+                {% for wallet in wallet_list %}
+
+                    <div class="wallet-card" data-wallet="{{ wallet.id }}">
+                        <div class="wallet-icon" style="background-color: {{ wallet.color }};">
+                            <i class="{{ wallet.icon }}"></i>
+                        </div>
+                        <div class="wallet-info">
+                            <h3>{{ wallet.name }}</h3>
+                            <div class="wallet-balance">$12,847.32</div>
+                            <div class="wallet-meta">
+                                <span>5 tokens</span>
+                            </div>
+                        </div>
+                    </div>   
+
+                {% endfor %}
+
+                <div class="wallet-card create-wallet-card create-new" data-wallet="create-new">
+                    <div class="create-wallet-content">
+                        <i class="fas fa-plus-circle"></i>
+                        <h3>Crear Nueva Wallet</h3>
+                        <p>Configura una nueva wallet para diversificar tu portfolio</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}
+{% block extra_js %}
+
+    <script>
+        // REDIRECT A PAGINA DE CADA WALLET O DE CREAR NUEVA
+        const wallets = document.querySelectorAll('.wallet-card');
+
+        wallets.forEach(wallet => {
+            wallet.addEventListener('click', () => {
+                window.location.href = `/wallet/${wallet.dataset.wallet}/`;
+
+            });
+        });
+    </script>
+
+{% endblock extra_js %}

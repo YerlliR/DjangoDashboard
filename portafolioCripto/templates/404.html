@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Página no encontrada | Crypto Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* ===================================
+           IMPORTS Y FUENTES
+           =================================== */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        /* ===================================
+           RESET Y CONFIGURACIÓN BASE
+           =================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        *, *::before, *::after {
+            transform: translateZ(0);
+            backface-visibility: hidden;
+            perspective: 1000px;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 25%, #262626 75%, #1a1a1a 100%);
+            min-height: 100vh;
+            color: #e2e8f0;
+            transform: translateZ(0);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ===================================
+           NAVEGACIÓN
+           =================================== */
+        .navbar {
+            background: rgba(15, 23, 42, 0.9);
+            border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transform: translateZ(0);
+        }
+
+        .nav-container {
+            max-width: 95%;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+        }
+
+        .logo {
+            color: #f1f5f9;
+            font-size: 1.8rem;
+            font-weight: 600;
+            text-decoration: none;
+            text-shadow: 0 2px 10px rgba(59, 130, 246, 0.3);
+            letter-spacing: -0.5px;
+            transition: color 0.2s ease;
+        }
+
+        .logo:hover {
+            color: #3b82f6;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 1rem;
+        }
+
+        .nav-link {
+            color: #e2e8f0;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.8rem 1.2rem;
+            border-radius: 8px;
+            transition: background-color 0.2s ease, color 0.2s ease;
+            background: rgba(75, 75, 75, 0.209);
+            border: 1px solid rgba(59, 130, 246, 0.1);
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-link:hover {
+            background: rgba(199, 199, 199, 0.209);
+            color: #3b82f6;
+            box-shadow: 0 2px 10px rgba(59, 130, 246, 0.1);
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+
+        /* ===================================
+           PÁGINA 404 PRINCIPAL
+           =================================== */
+        .error-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            min-height: 100vh;
+        }
+
+        .error-content {
+            text-align: center;
+            max-width: 600px;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .error-number {
+            font-size: 8rem;
+            font-weight: 700;
+            color: #3b82f6;
+            text-shadow: 0 0 50px rgba(59, 130, 246, 0.5);
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+        }
+
+        .error-number::before {
+            content: '404';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: blur(20px);
+            opacity: 0.7;
+            z-index: -1;
+        }
+
+        .glitch-icon {
+            font-size: 4rem;
+            color: #ef4444;
+            margin-bottom: 1.5rem;
+            animation: glitch 2s infinite;
+            text-shadow: 0 0 20px rgba(239, 68, 68, 0.5);
+        }
+
+        .error-title {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: #f1f5f9;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 10px rgba(59, 130, 246, 0.3);
+        }
+
+        .error-subtitle {
+            font-size: 1.3rem;
+            color: #94a3b8;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .error-description {
+            font-size: 1rem;
+            color: #64748b;
+            margin-bottom: 3rem;
+            line-height: 1.8;
+        }
+
+        /* ===================================
+           BOTONES DE ACCIÓN
+           =================================== */
+        .error-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 3rem;
+        }
+
+        .action-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border: none;
+            cursor: pointer;
+        }
+
+        .primary-btn {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+        }
+
+        .primary-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(59, 130, 246, 0.4);
+        }
+
+        .secondary-btn {
+            background: rgba(75, 75, 75, 0.3);
+            color: #e2e8f0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .secondary-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        /* ===================================
+           SUGERENCIAS ÚTILES
+           =================================== */
+        .suggestions {
+            background: rgba(15, 23, 42, 0.6);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            animation: fadeInUp 0.8s ease-out 0.2s backwards;
+        }
+
+        .suggestions h3 {
+            color: #f1f5f9;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .suggestion-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            list-style: none;
+        }
+
+        .suggestion-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(30, 41, 59, 0.3);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(59, 130, 246, 0.1);
+        }
+
+        .suggestion-item:hover {
+            background: rgba(59, 130, 246, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.1);
+        }
+
+        .suggestion-icon {
+            color: #3b82f6;
+            font-size: 1.5rem;
+            min-width: 2rem;
+        }
+
+        .suggestion-text {
+            color: #e2e8f0;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        /* ===================================
+           ELEMENTOS DECORATIVOS
+           =================================== */
+        .floating-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .floating-crypto {
+            position: absolute;
+            color: rgba(59, 130, 246, 0.1);
+            font-size: 2rem;
+            animation: float 10s infinite linear;
+        }
+
+        .floating-crypto:nth-child(1) {
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .floating-crypto:nth-child(2) {
+            top: 60%;
+            right: 15%;
+            animation-delay: -3s;
+        }
+
+        .floating-crypto:nth-child(3) {
+            bottom: 30%;
+            left: 20%;
+            animation-delay: -6s;
+        }
+
+        .floating-crypto:nth-child(4) {
+            top: 40%;
+            right: 30%;
+            animation-delay: -9s;
+        }
+
+        /* ===================================
+           ANIMACIONES
+           =================================== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes glitch {
+            0%, 100% {
+                transform: translateX(0);
+            }
+            10% {
+                transform: translateX(-2px);
+            }
+            20% {
+                transform: translateX(2px);
+            }
+            30% {
+                transform: translateX(-1px);
+            }
+            40% {
+                transform: translateX(1px);
+            }
+            50% {
+                transform: translateX(0);
+                color: #ef4444;
+            }
+            60% {
+                color: #3b82f6;
+            }
+            70% {
+                color: #ef4444;
+            }
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px) rotate(0deg);
+                opacity: 0.1;
+            }
+            25% {
+                opacity: 0.3;
+            }
+            50% {
+                transform: translateY(-20px) rotate(180deg);
+                opacity: 0.1;
+            }
+            75% {
+                opacity: 0.2;
+            }
+            100% {
+                transform: translateY(0px) rotate(360deg);
+                opacity: 0.1;
+            }
+        }
+
+        /* ===================================
+           RESPONSIVE DESIGN
+           =================================== */
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 1rem;
+            }
+
+            .error-container {
+                padding: 1rem;
+            }
+
+            .error-number {
+                font-size: 6rem;
+            }
+
+            .error-title {
+                font-size: 2rem;
+            }
+
+            .error-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .error-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .action-btn {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+
+            .suggestions {
+                padding: 1.5rem;
+            }
+
+            .suggestion-list {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .error-number {
+                font-size: 4rem;
+            }
+
+            .error-title {
+                font-size: 1.5rem;
+            }
+
+            .glitch-icon {
+                font-size: 3rem;
+            }
+
+            .suggestions {
+                padding: 1rem;
+            }
+        }
+
+        /* ===================================
+           MENÚ MÓVIL
+           =================================== */
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 8px;
+            background: rgba(75, 75, 75, 0.209);
+            border-radius: 8px;
+            border: 1px solid rgba(59, 130, 246, 0.1);
+            transition: background-color 0.2s ease;
+        }
+
+        .mobile-menu-toggle:hover {
+            background: rgba(199, 199, 199, 0.209);
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+
+        .mobile-menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: #e2e8f0;
+            margin: 3px 0;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+            border-radius: 2px;
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu {
+                position: fixed;
+                left: -100%;
+                top: 80px;
+                flex-direction: column;
+                background: rgba(15, 23, 42, 0.95);
+                width: 100%;
+                text-align: center;
+                transition: left 0.3s ease;
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+                border-top: 1px solid rgba(59, 130, 246, 0.2);
+                padding: 2rem 1rem;
+                gap: 1rem;
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .mobile-menu-toggle {
+                display: flex;
+            }
+
+            .mobile-menu-toggle.active span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .mobile-menu-toggle.active span:nth-child(1) {
+                transform: translateY(8px) rotate(45deg);
+            }
+
+            .mobile-menu-toggle.active span:nth-child(3) {
+                transform: translateY(-8px) rotate(-45deg);
+            }
+
+            .nav-link {
+                width: 100%;
+                margin: 0.5rem 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Elementos flotantes decorativos -->
+    <div class="floating-elements">
+        <i class="fab fa-bitcoin floating-crypto"></i>
+        <i class="fab fa-ethereum floating-crypto"></i>
+        <i class="fas fa-coins floating-crypto"></i>
+        <i class="fas fa-chart-line floating-crypto"></i>
+    </div>
+
+
+
+    <!-- Contenido principal de error 404 -->
+    <div class="error-container">
+        <div class="error-content">
+            <!-- Icono de error -->
+            <div class="glitch-icon">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+
+            <!-- Número 404 -->
+            <div class="error-number">404</div>
+
+            <!-- Título y descripción -->
+            <h1 class="error-title">¡Oops! Página no encontrada</h1>
+            <p class="error-subtitle">
+                La página que buscas parece haber desaparecido en el blockchain
+            </p>
+            <p class="error-description">
+                No te preocupes, esto pasa hasta en las mejores criptomonedas. 
+                La URL que intentas acceder no existe o ha sido movida a otra dirección.
+            </p>
+
+            <!-- Botones de acción -->
+            <div class="error-actions">
+                <a href="/" class="action-btn primary-btn">
+                    <i class="fas fa-home"></i>
+                    Volver al inicio
+                </a>
+                <a href="/mercado" class="action-btn secondary-btn">
+                    <i class="fas fa-chart-line"></i>
+                    Ver mercado
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Funcionalidad del menú móvil
+        document.addEventListener('DOMContentLoaded', function() {
+            // Efecto de parallax suave en los elementos flotantes
+            document.addEventListener('mousemove', function(e) {
+                const floatingElements = document.querySelectorAll('.floating-crypto');
+                const mouseX = e.clientX / window.innerWidth;
+                const mouseY = e.clientY / window.innerHeight;
+
+                floatingElements.forEach((element, index) => {
+                    const speed = (index + 1) * 0.5;
+                    const x = (mouseX - 0.5) * speed * 20;
+                    const y = (mouseY - 0.5) * speed * 20;
+                    
+                    element.style.transform = `translate(${x}px, ${y}px) rotate(${x}deg)`;
+                });
+            });
+        });
+
+        // Redirección automática opcional (descomentiar si se desea)
+        // setTimeout(() => {
+        //     window.location.href = '/';
+        // }, 10000); // Redirige después de 10 segundos
+    </script>
+</body>
+</html>

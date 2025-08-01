@@ -1,6 +1,7 @@
-from django.core.management.base import BaseCommand  # ← Clase base obligatoria
+from django.core.management.base import BaseCommand
 import requests
 from datetime import datetime
+from django.utils import timezone  # ← Importar timezone de Django
 from portafolioCripto.models import Crypto, Crypto_price
 from django.conf import settings
 
@@ -10,7 +11,6 @@ class Command(BaseCommand):
     help = 'Actualizar precios de criptomonedas'
 
     def add_arguments(self, parser):
-        # Argumentos para el log
         parser.add_argument(
             '--pages',
             type=int,
@@ -29,9 +29,8 @@ class Command(BaseCommand):
         api_pages = options['pages']
         verbose = options['verbose']
         
-        # Usar self.stdout para imprimir (mejor que print)
         self.stdout.write(
-            self.style.SUCCESS(f'Iniciando actualización ({api_pages} páginas)...')
+            self.style.SUCCESS(f'Iniciando actualización ({api_pages} páginas)... - {timezone.now().strftime("%Y-%m-%d %H:%M:%S")}')
         )
 
         total_processed = 0
@@ -50,6 +49,9 @@ class Command(BaseCommand):
                 
                 data = response.json()
 
+                # Obtener la fecha/hora actual con timezone una sola vez por página
+                current_time = timezone.now()
+
                 for crypto_json in data:
                     try:
                         # Crear o actualizar crypto
@@ -67,10 +69,10 @@ class Command(BaseCommand):
                             crypto.logo = crypto_json['image']
                             crypto.save()
 
-                        # Crear precio
+                        # Crear precio con timezone-aware datetime
                         Crypto_price.objects.create(
                             price=crypto_json['current_price'],
-                            date=datetime.now(),
+                            date=current_time,  # ← Usar timezone.now() directamente
                             crypto=crypto,
                             market_cap=crypto_json.get('market_cap')
                         )
@@ -78,7 +80,6 @@ class Command(BaseCommand):
                         total_processed += 1
                         
                     except Exception as e:
-                        # Manejo de errores con colores
                         self.stdout.write(
                             self.style.ERROR(f'Error: {crypto_json.get("name", "unknown")}: {e}')
                         )

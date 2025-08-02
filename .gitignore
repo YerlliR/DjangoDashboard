@@ -135,7 +135,6 @@ dmypy.json
 # Django specific
 media/
 staticfiles/
-static/
 
 # Node modules (if using frontend tools)
 node_modules/

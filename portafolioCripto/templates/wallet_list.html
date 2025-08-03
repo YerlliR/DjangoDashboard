@@ -13,9 +13,11 @@
                 {% for wallet in wallet_list %}
 
                     <div class="wallet-card" data-wallet="{{ wallet.id }}">
-                        <div class="wallet-icon" style="background-color: {{ wallet.color }};">
-                            <i class="{{ wallet.icon }}"></i>
+                        <!-- Color de la base de datos y color con transparencia para mejrar estetica y visibilidad -->
+                        <div class="wallet-icon" style="background-color: {{ wallet.color }}20;">
+                            <i style="color:{{ wallet.color }};" class="{{ wallet.icon }}"></i>
                         </div>
+                        
                         <div class="wallet-info">
                             <h3>{{ wallet.name }}</h3>
                             <div class="wallet-balance">$12,847.32</div>

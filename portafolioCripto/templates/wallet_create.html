@@ -87,10 +87,9 @@
                             <i class="fas fa-wallet"></i>
                         </div>
                         <div class="preview-name" id="previewName">Nueva Wallet</div>
-                        <div class="preview-address">0x742d...Ab3E</div>
                         <div class="preview-balance">$0.00</div>
                         <div class="preview-meta">
-                            <span class="preview-type" id="previewType">Personal</span>
+                            <span class="preview-type" id="previewType">{{ user.first_name }}</span>
                             <span>0 tokens</span>
                         </div>
                     </div>
@@ -119,6 +118,17 @@
             color: '#3b82f6'
         };
 
+        const iconMap = {
+            'wallet': 'fas fa-wallet',
+            'bitcoin': 'fab fa-bitcoin',
+            'chart': 'fas fa-chart-line',
+            'piggy': 'fas fa-piggy-bank',
+            'shield': 'fas fa-shield-alt',
+            'star': 'fas fa-star',
+            'diamond': 'fas fa-gem',
+            'rocket': 'fas fa-rocket'
+        };
+
         function selectLogo(element) {
             document.querySelectorAll('.logo-option').forEach(option => {
                 option.classList.remove('selected');
@@ -139,7 +149,6 @@
             updatePreview();
         }
 
-
         function updatePreview() {
             
             const nameInput = document.getElementById('walletName');
@@ -150,17 +159,6 @@
 
             walletConfig.name = nameInput.value || 'Nueva Wallet';
             previewName.textContent = walletConfig.name;
-
-            const iconMap = {
-                'wallet': 'fas fa-wallet',
-                'bitcoin': 'fab fa-bitcoin',
-                'chart': 'fas fa-chart-line',
-                'piggy': 'fas fa-piggy-bank',
-                'shield': 'fas fa-shield-alt',
-                'star': 'fas fa-star',
-                'diamond': 'fas fa-gem',
-                'rocket': 'fas fa-rocket'
-            };
 
             previewIcon.innerHTML = `<i class="${iconMap[walletConfig.logo]}"></i>`;
 
@@ -175,10 +173,34 @@
 
         function createWallet() {
 
+            fetch("{% url 'wallet_create' %}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCSRFToken()
+                },
+                body: JSON.stringify({
+                    name: walletConfig.name,
+                    color: walletConfig.color,
+                    icon: iconMap[walletConfig.logo]
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+
+                    window.location.href = `${data.redirect_url}`;
+
+                }else{
+
+                    // CAMBIAR POR UN ALERTA DE CSS (CUTRE)
+                    alert("Error al crear la wallet");
+
+                }
+            })
         }
 
 
-        // Volver a wallets principal
         function goBack() {
             window.location.href = `/wallet/`;
         }

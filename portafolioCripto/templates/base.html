@@ -4,6 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="csrf-token" content="{{ csrf_token }}">
         <title>BitPy</title>
         <link rel="shortcut icon" href="{% static 'images/logo.png' %}" type="image/x-icon">
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -95,6 +96,11 @@
                     }
                 });
             });
+
+            // Función para obtener el token CSRF desde cualquier sitio
+            function getCSRFToken() {
+                return document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+            }
         </script>
     </body>
 </html>

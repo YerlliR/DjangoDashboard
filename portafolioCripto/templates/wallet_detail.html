@@ -76,107 +76,60 @@
             </div> -->
 
             <div class="holdings-table">
-                <h3 class="chart-title">Mis Tenencias</h3>
+                <div class="holdings-table-header">
+                    <h3 class="chart-title">Mis Tenencias</h3>
+
+                    <button class="add-crypto-button">Add Crypto</button>
+                </div>
+
                 <table>
                     <thead>
                         <tr>
                             <th>NAME</th>
                             <th>PRICE</th>
                             <th>QUANTITY</th>
+                            <th>MEDIUM PRICE</th>
                             <th>VALUE</th>
-                            <th>24h CHANGE</th>
-                            <th>% PORTFOLIO</th>
+                            <th>PROFIT</th>
+                            <th>% PROFIT</th>
                             <th>ACTIONS</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {% for crypto in page_obj %}
+                        {% for crypto in user_crypto_list %}
 
                             <tr>
                                 <td>
-                                    <span><img class="logo-crypto" src="{{ crypto.logo }}" alt="logo-{{ crypto.name }}"></span>
-                                    <span class="crypto-name">{{ crypto.name }}</span>
-                                    <span class="crypto-symbol">{{ crypto.symbol }}</span>
+                                    <span><img class="logo-crypto" src="{{ crypto.crypto_logo }}" alt="logo-{{ crypto.crypto_name }}"></span>
+                                    <span class="crypto-name">{{ crypto.crypto_name }}</span>
+                                    <span class="crypto-symbol">{{ crypto.crypto_symbol }}</span>
                                 </td>
                                 <td class="price">
-                                    {{ crypto.crypto_price_set.last.date }}
+                                    {{ crypto.crypto_price }}
                                 </td>
                                 <td class="amount">
-                                    0.5234
+                                    {{ crypto.amount }}
                                 </td>
                                 <td class="value">
-                                    $22,635.05
+                                    {{ crypto.medium_price }}
                                 </td>
-                                <td class="change positive">
-                                    +2.34%
+                                <td class="value">
+                                    {{ crypto.value }}
                                 </td>
-                                <td>
-                                    47.6%
+                                <td class="profit">
+                                    {{ crypto.profit }}
                                 </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="crypto-info">
-                                        <img src="https://cryptologos.cc/logos/ethereum-eth-logo.png" alt="Ethereum" class="crypto-logo">
-                                        <div class="crypto-details">
-                                            <span class="crypto-name">Ethereum</span>
-                                            <span class="crypto-symbol">ETH</span>
-                                        </div>
-                                    </div>
+                                <td class="percentage-profit">
+                                    {{ crypto.percentage_profit }} %
                                 </td>
-                                <td class="price">$2,850.00</td>
-                                <td class="amount">5.2341</td>
-                                <td class="value">$14,917.19</td>
-                                <td class="change positive">+4.12%</td>
-                                <td>31.4%</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="crypto-info">
-                                        <img src="https://cryptologos.cc/logos/cardano-ada-logo.png" alt="Cardano" class="crypto-logo">
-                                        <div class="crypto-details">
-                                            <span class="crypto-name">Cardano</span>
-                                            <span class="crypto-symbol">ADA</span>
-                                        </div>
-                                    </div>
+                                <td class="actions">
+                                    <a href="" class="table-button table-shoping">
+                                        <i class="fa-solid fa-cart-shopping"></i>
+                                    </a>
+                                    <a href="" class="table-button table-view">
+                                        <i class="fa-solid fa-eye"></i>
+                                    </a>
                                 </td>
-                                <td class="price">$0.45</td>
-                                <td class="amount">12,450.00</td>
-                                <td class="value">$5,602.50</td>
-                                <td class="change negative">-1.23%</td>
-                                <td>11.8%</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="crypto-info">
-                                        <img src="https://cryptologos.cc/logos/solana-sol-logo.png" alt="Solana" class="crypto-logo">
-                                        <div class="crypto-details">
-                                            <span class="crypto-name">Solana</span>
-                                            <span class="crypto-symbol">SOL</span>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="price">$95.67</td>
-                                <td class="amount">28.45</td>
-                                <td class="value">$2,721.82</td>
-                                <td class="change positive">+7.89%</td>
-                                <td>5.7%</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="crypto-info">
-                                        <img src="https://cryptologos.cc/logos/polygon-matic-logo.png" alt="Polygon" class="crypto-logo">
-                                        <div class="crypto-details">
-                                            <span class="crypto-name">Polygon</span>
-                                            <span class="crypto-symbol">MATIC</span>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="price">$0.87</td>
-                                <td class="amount">2,100.00</td>
-                                <td class="value">$1,827.00</td>
-                                <td class="change positive">+3.45%</td>
-                                <td>3.8%</td>
                             </tr>
                         {% empty %}
                             <tr>
@@ -246,16 +199,57 @@
 
     {% endif %}
 
+
+    <div class="add-crypto-modal">
+        <div class="modal-container">
+            <button class="modal-close">
+                <i class="fas fa-times"></i>
+            </button>
+
+            <h1 class="add-crypto-title">
+                Agregar Criptomonedas
+            </h1>
+
+            <form action="{% url 'wallet_detail' wallet.id %}" method="POST">
+                {% csrf_token %}
+
+                <label for="crypto_select">Crypto</label>
+                <select name="crypto_select" id="crypto_select">
+
+                    {% for crypto in crypto_list %}
+                        <option value="{{ crypto.id }}">{{ crypto.name }} - {{ crypto.symbol }}</option>
+                    {% endfor %}
+
+                </select>
+
+                <label for="amount">Quantity</label>
+                <input type="text" name="amount" id="amount" placeholder="Amount">
+
+                <label for="price">Price</label>
+                <input type="text" name="price" id="price" placeholder="Price">
+
+                <label for="date">Transacion Date</label>
+                <input type="date" name="date" id="date">
+                
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-paper-plane"></i> Submit
+                </button>
+
+            </form>
+        </div>
+    </div>
 {% endblock %}
 
 {% block extra_js %}
 
     <script>
+
+        // FUNCIONABILIDADADES DE LA PAGINA
         document.addEventListener('DOMContentLoaded', function() {
             const features = document.querySelectorAll('.features-list li');
             features.forEach((feature, index) => {
                 feature.style.animationDelay = `${0.1 * index}s`;
-                feature.style.animation = 'fadeInUp 0.6s ease-out forwards';
+                feature.style.animation = 'fadeInUp 0.close-modal6s ease-out forwards';
             });
             
             const authBtns = document.querySelectorAll('.auth-btn');
@@ -268,7 +262,7 @@
                     this.style.transform = 'translateY(0) scale(1)';
                 });
             });
-            
+            close-modal
             document.getElementById('github-login').addEventListener('click', function(e) {
                 e.preventDefault();
                 alert('Funcionalidad de GitHub OAuth en desarrollo...');
@@ -279,6 +273,25 @@
                 alert('Funcionalidad de Google OAuth en desarrollo...');
             });
         });
+
+
+        // FUNCIONABILIDADES VENTANA MODAL
+        const addCryptoBtn = document.querySelector('.add-crypto-button');
+        const closeModalBtn = document.querySelector('.modal-close');
+
+        // Abrir modal
+        addCryptoBtn.addEventListener('click', function(e) {
+
+            e.preventDefault();
+            document.querySelector('.add-crypto-modal').classList.add('active');
+        });
+
+        // Cerrar modal
+        closeModalBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            document.querySelector('.add-crypto-modal').classList.remove('active');
+        });
+
 
     </script>
 {% endblock %}

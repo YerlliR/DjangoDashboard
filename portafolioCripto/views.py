@@ -2,18 +2,17 @@ from django.shortcuts import render, redirect
 from .models import Crypto, Transaction, Wallet
 from django.core.paginator import Paginator 
 from django.db.models import Q 
-from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from django.http import Http404
+from django.http import Http404, JsonResponse
+import json
+from typing import cast
 
 def probar_404(request):
     raise Http404("Forzando error 404 para probar la plantilla")
-
-
-
 
 def index_view(request):
 
@@ -39,21 +38,76 @@ def index_view(request):
     })
 
 @login_required
-def wallet_detail_view(request):
+def wallet_detail_view(request, wallet_id):
 
+    user_crypto_list = []
+
+    # obtener usuario del request
     user = request.user
 
-    # FILTRO PARA PODERA ACCEDER SOLO A LA WALLET DEL USUARIO
+    # FILTRO PARA EVITAR ACCEDER A WALLETS QUE NO SEAN DEL USUARIO
     wallet = Wallet.objects.get(
         user = user, 
-        id = int(request.GET.get('wallet_id'))
+        id = wallet_id
     )
-    
-    user_crypto_list = list(Crypto.objects.filter(
-        id = Transaction.objects.filter(wallet=wallet)
-    ))
 
+    transactions = list(Transaction.objects.filter(wallet=wallet))
+
+    for transaction in transactions:
+
+        transacion_crypto = transaction.crypto
+        latest_price = transaction.crypto.crypto_price_set.order_by('-date').first() # type: ignore
+        index = next(
+            (i for i, user_crypto in enumerate(user_crypto_list) if user_crypto["crypto_name"] == transacion_crypto.name),
+            None
+        )
+
+        if index is None:
+            
+            user_crypto_list.append(
+                
+                {
+                    "crypto_name": transacion_crypto.name, 
+                    "crypto_symbol": transacion_crypto.symbol, 
+                    "crypto_logo": transacion_crypto.logo, 
+                    "crypto_price": latest_price.price,  # type: ignore
+                    "amount": transaction.amount, 
+                    "medium_price": transaction.buy_price,
+                    "quantity_transactions": 1,
+                    "value": transaction.amount * latest_price.price, # type: ignore
+                    "profit": transaction.amount * latest_price.price - transaction.amount * transaction.buy_price,
+                    "percentage_profit": round((latest_price.price - transaction.buy_price) / transaction.buy_price * 100, 2)
+                }
+                
+            )
+        else:
+
+            user_crypto_list[index]["quantity_transactions"] += 1
+            user_crypto_list[index]["amount"] += transaction.amount
+            user_crypto_list[index]["medium_price"] = (user_crypto_list[index]["medium_price"] + transaction.buy_price) / user_crypto_list[index]["quantity_transactions"]
+            user_crypto_list[index]["value"] += transaction.amount * latest_price.price # type: ignore
+            user_crypto_list[index]["profit"] += transaction.amount * latest_price.price - transaction.amount * transaction.buy_price
+            user_crypto_list[index]["percentage_profit"] = round((latest_price.price - transaction.buy_price + user_crypto_list[index]["medium_price"]) / (transaction.buy_price + user_crypto_list[index]["medium_price"]) * 100, 2)
+
+
+    crypto_list = list(Crypto.objects.all())
+
+    if request.method == 'POST':
+
+        crypto_selected = Crypto.objects.get(
+            id = int(request.POST['crypto_select'])
+        )
+
+        Transaction.objects.create(
+            wallet = wallet,
+            crypto = crypto_selected,
+            date = request.POST['date'],
+            amount = request.POST['amount'],
+            buy_price = request.POST['price']
+        )
+    
     return render(request, 'wallet_detail.html', {
+        'crypto_list': crypto_list,
         'wallet': wallet,
         'user_crypto_list': user_crypto_list
     })
@@ -70,9 +124,36 @@ def wallet_list_view(request):
     })
 
 @login_required
+@csrf_protect
 def wallet_create_view(request):
-    return render(request, 'wallet_create.html')
 
+    if request.method == 'POST':
+
+        try:
+            walletConfig = json.loads(request.body)
+
+            name = walletConfig.get('name', '').strip()
+            color = walletConfig.get('color', '').strip()
+            icon = walletConfig.get('icon', '').strip()
+
+            Wallet.objects.create(
+                user = request.user,
+                name = name,
+                icon = icon,
+                color = color
+            )
+
+            # Envia respuesta al fectch para que redirija al wallet_list al estar completada con exito la operacion
+            return JsonResponse({'success': True, 'redirect_url': '/wallet/'}) 
+
+        except Exception as e:
+            print(e)
+
+            # el redirect_url aqui ahora mismo no se esta usando 
+            return JsonResponse({'success': False, 'redirect_url': '/wallet/create-new/'}) 
+
+    # Si no recibe POST carga la plantilla de creacion
+    return render(request, 'wallet_create.html')
 
 
 def login_view(request):
@@ -104,9 +185,8 @@ def login_view(request):
 
 @csrf_protect
 def signup_view(request):
-    if request.method == 'POST':
-        print("POST data:", request.POST)  # Para debug
-        
+
+    if request.method == 'POST':     
         # Obtener datos del formulario
         name = request.POST.get('name', '').strip()
         last_name = request.POST.get('last_name', '').strip()
